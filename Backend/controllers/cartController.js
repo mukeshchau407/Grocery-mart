@@ -7,6 +7,6 @@ export const updateCart = async (req, res) => {
     res.json({ success: true, message: "Cart updated successfully" });
   } catch (error) {
     consloe.log(error.message);
-    res.json({ success: false, message: error.m });
+    res.json({ success: false, message: error.message });
   }
 };
