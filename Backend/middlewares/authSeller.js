@@ -9,10 +9,9 @@ const authSeller = (req, res, next) => {
   try {
     const tokenDecode = jwt.verify(sellerToken, process.env.JWT_SECRET);
     if (!tokenDecode.email === process.env.SELLER_EMAIL) {
-      next();
-    } else {
       return res.json({ success: false, message: "Unauthorized" });
     }
+    req.seller = tokenDecode;
     next();
   } catch (error) {
     return res.json({ success: false, message: error.message });
