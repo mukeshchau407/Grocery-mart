@@ -1,12 +1,23 @@
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 import { FaBox, FaList, FaWpforms } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const SellerLayout = () => {
-  const { setSellerLayout } = useAppContext();
+  const { axios, navigate } = useAppContext();
 
   const logout = async () => {
-    setIsSeller(false);
+    try {
+      const { data } = await axios.post("/api/seller/logout");
+      if (data.success) {
+        toast.success(data.message);
+        navigate("/");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const sidebarLinks = [
@@ -27,7 +38,7 @@ const SellerLayout = () => {
           <p>Hi! Admin</p>
           <button
             onClick={logout}
-            className="border rounded-full text-sm px-4 py-1 cursor-pointer"
+            className="border rounded-full text-sm px-4 py-1 cursor-pointer bg-gray-100 hover:bg-gray-200 transition"
           >
             Logout
           </button>
